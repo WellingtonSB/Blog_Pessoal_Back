@@ -1,2 +1,3 @@
 # blogPessoal
-Projeto desenvolvido no bootcamp da Generation acerca do blog pessoal
+
+Project developed in generation bootcamp.
