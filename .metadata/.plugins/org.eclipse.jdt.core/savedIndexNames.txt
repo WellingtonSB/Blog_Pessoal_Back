@@ -1,0 +1,3 @@
+INDEX VERSION 1.131+C:\Users\welli\Documents\Generation\Aulas\GenerationSpring\BlogPessoal\.metadata\.plugins\org.eclipse.jdt.core
+525264009.index
+3059588540.index

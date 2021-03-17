@@ -1,0 +1,21 @@
+package org.generation.blogPessoal.model;
+
+import java.util.Date;
+
+public class Postagem {
+
+	private long id;
+	private String titulo;
+	private String texto;
+	private Date date = new java.sql.Date(System.currentTimeMillis())/
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+}
