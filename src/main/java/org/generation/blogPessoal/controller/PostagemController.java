@@ -5,10 +5,15 @@ import java.util.List;
 import org.generation.blogPessoal.model.Postagem;
 import org.generation.blogPessoal.repository.PostagemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,26 +21,52 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/postagem")
 @CrossOrigin("*")
 public class PostagemController {
-	
+
 	@Autowired
 	private PostagemRepository repository;
-	// instancia tudo o que está na interface PostagemRepository ao utilizar o@autowired
+
+	// instancia tudo o que está na interface PostagemRepository ao utilizar o @autowired
 	@GetMapping
-	public ResponseEntity<List<Postagem>> GetAll(){
+	public ResponseEntity<List<Postagem>> GetAll() {
 		return ResponseEntity.ok(repository.findAll());
 		// ResponseEntity: significa representar toda a resposta HTTP. Você pode
 		// controlar qualquer coisa que aconteça: código de status, cabeçalhos e corpo.
 	}
-	
+
 	@GetMapping("/{id}")
-	public ResponseEntity<Postagem> GetById(@PathVariable long id){
+	public ResponseEntity<Postagem> GetById(@PathVariable long id) {
 		return repository.findById(id).map(resp -> ResponseEntity.ok(resp)).orElse(ResponseEntity.notFound().build());
 		// PathVariable: é utilizado quando o valor da variável é passada diretamente na URL
-		}
-	
-	@GetMapping("/titulo/{titulo}")	
-	public ResponseEntity<List<Postagem>> FindByTitulo(@PathVariable String titulo){
-		return ResponseEntity.ok(repository.findAllByTituloContainingIgnoreCase(titulo));
-		//Parecido com o like %n%
 	}
+
+	@GetMapping("/titulo/{titulo}")
+	public ResponseEntity<List<Postagem>> FindByTitulo(@PathVariable String titulo) {
+		return ResponseEntity.ok(repository.findAllByTituloContainingIgnoreCase(titulo));
+		// Parecido com o like %n%
+	}
+
+	@PostMapping
+	public ResponseEntity<Postagem> post(@RequestBody Postagem postagem) {
+		return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(postagem));
+		//cria e salva (postagens) no db.
+		//@ResquestBody-->Para Recepcionar os valores/objetos que são passadas via body para nossa aplicação,
+		//usaremos para recpcionar os dados.
+	}
+
+	@PutMapping
+	public ResponseEntity<Postagem> put(@RequestBody Postagem postagem) {
+		return ResponseEntity.status(HttpStatus.OK).body(repository.save(postagem));
+		//chama-se o mesmo metodo e retorna um OK
+	}
+
+	@DeleteMapping("/{id}")
+	public void delete(@PathVariable long id) {
+		repository.deleteById(id);
+	}
+	
+	
+	
+	
+	
+	
 }
