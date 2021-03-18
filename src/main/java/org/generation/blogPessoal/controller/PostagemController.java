@@ -39,11 +39,19 @@ public class PostagemController {
 		// PathVariable: é utilizado quando o valor da variável é passada diretamente na URL
 	}
 
-	@GetMapping("/titulo/{titulo}")
+	/*@GetMapping("/titulo/{titulo}")
 	public ResponseEntity<List<Postagem>> FindByTitulo(@PathVariable String titulo) {
 		return ResponseEntity.ok(repository.findAllByTituloContainingIgnoreCase(titulo));
 		// Parecido com o like %n%
+	}*/
+	
+	@GetMapping("/titulo/{titulo}")
+	public ResponseEntity<List<Postagem>> FindByTitulo(@PathVariable String titulo) {
+		return ResponseEntity.ok(repository.getAllByTituloContainingIgnoreCase(titulo));
+		// Parecido com o like %n%
 	}
+	
+	
 
 	@PostMapping
 	public ResponseEntity<Postagem> post(@RequestBody Postagem postagem) {
