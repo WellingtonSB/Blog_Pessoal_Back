@@ -36,9 +36,7 @@ public class PostagemController {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Postagem> GetById(@PathVariable long id) {
-		return postagemRepository.findById(id).map(resp -> ResponseEntity.ok(resp))
-
-				.orElse(ResponseEntity.notFound().build());
+		return postagemRepository.findById(id).map(resp -> ResponseEntity.ok(resp)).orElse(ResponseEntity.notFound().build());
 		// PathVariable: é utilizado quando o valor da variável é passada diretamente na
 		// URL
 
