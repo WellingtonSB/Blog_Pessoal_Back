@@ -17,53 +17,48 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+
+@CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/postagens")
-@CrossOrigin("*")
+@RequestMapping(value="/postagem")
 public class PostagemController {
-
+	
 	@Autowired
-	private PostagemRepository postagemRepository;
-	// instancia tudo o que está na interface PostagemRepository ao utilizar o
-	// @autowired
-
+	private PostagemRepository repositoty;
+	
 	@GetMapping
-	public ResponseEntity<List<Postagem>> GetAll() {
-		return ResponseEntity.ok(postagemRepository.findAll());
-		// ResponseEntity: significa representar toda a resposta HTTP. Você pode
-		// controlar qualquer coisa que aconteça: código de status, cabeçalhos e corpo.
+	public ResponseEntity<List<Postagem>> GetAll(){
+		return ResponseEntity.ok(repositoty.findAll());
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Postagem> GetById(@PathVariable long id) {
-		return postagemRepository.findById(id).map(resp -> ResponseEntity.ok(resp)).orElse(ResponseEntity.notFound().build());
-		// PathVariable: é utilizado quando o valor da variável é passada diretamente na
-		// URL
-
+	public ResponseEntity<Postagem> GetById(@PathVariable long id){
+		return repositoty.findById(id)
+				.map(resp -> ResponseEntity.ok(resp))
+				.orElse(ResponseEntity.notFound().build());
 	}
-
+	
 	@GetMapping("/titulo/{titulo}")
-	public ResponseEntity<List<Postagem>> GetByTitulo(@PathVariable String titulo) {
-		return ResponseEntity.ok(postagemRepository.findAllByTituloContainingIgnoreCase(titulo));
-		// Parecido com o like %n%
-
+	public ResponseEntity<List<Postagem>> GetByTitulo(@PathVariable String titulo){
+		return ResponseEntity.ok(repositoty.findAllByTituloContainingIgnoreCase(titulo));
 	}
-
+	
 	@PostMapping
-	public ResponseEntity<Postagem> post(@RequestBody Postagem postagem) {
-		return ResponseEntity.status(HttpStatus.CREATED).body(postagemRepository.save(postagem));
-		// Inserir dados na body/postman
-
+	public ResponseEntity<Postagem> post (@RequestBody Postagem postagem){
+		return ResponseEntity.status(HttpStatus.CREATED).body(repositoty.save(postagem));
 	}
-
+	
 	@PutMapping
-	public ResponseEntity<Postagem> put(@RequestBody Postagem postagem) {
-		return ResponseEntity.status(HttpStatus.OK).body(postagemRepository.save(postagem));
-		// modificar dados na body/postman
+	public ResponseEntity<Postagem> put (@RequestBody Postagem postagem){
+		return ResponseEntity.status(HttpStatus.OK).body(repositoty.save(postagem));
 	}
-
+	
 	@DeleteMapping("/{id}")
 	public void delete(@PathVariable long id) {
-		postagemRepository.deleteById(id);
-	}
+		repositoty.deleteById(id);
+	}	
 }
